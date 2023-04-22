@@ -31,5 +31,5 @@ function submitForm(event) {
   event.preventDefault();
   console.log(localStorageInput);
   event.currentTarget.reset();
-  localStorage.clear;
+  localStorage.clear();
 }
