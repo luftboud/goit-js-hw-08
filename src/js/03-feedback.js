@@ -2,7 +2,7 @@ import throttle from 'lodash.throttle';
 
 const form = document.querySelector('form');
 const STORAGE_KEY = 'feedback-form-state';
-const localStorageInput = {};
+let localStorageInput = {};
 
 checkSave();
 form.addEventListener('input', throttle(updateLocalStorage, 500));
@@ -21,15 +21,22 @@ function checkSave() {
     const { email, message } = savedData;
     if (savedData.email) {
       form.email.value = email;
+      localStorageInput = savedData;
     }
     if (savedData.message) {
       form.message.value = message;
+      localStorageInput = savedData;
     }
   }
 }
 function submitForm(event) {
   event.preventDefault();
-  console.log(localStorageInput);
-  event.currentTarget.reset();
-  localStorage.clear();
+  if (localStorageInput.email && localStorageInput.message) {
+    console.log(localStorageInput);
+    event.currentTarget.reset();
+    localStorage.clear();
+    localStorageInput = {};
+  } else {
+    alert('you have to fill both inputs');
+  }
 }
